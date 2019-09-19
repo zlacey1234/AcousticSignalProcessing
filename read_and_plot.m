@@ -1,7 +1,9 @@
-[~, Fs] = audioread('./audio/parrot/parrot1.wav', [1 10]);
+f_name = './audio/car_idling/car_idling1.wav';
+
+[~, Fs] = audioread(f_name, [1 10]);
 start_t = 1;
-end_t = 60;
-[y, Fs] = audioread('./audio/parrot/parrot1.wav', Fs * [start_t end_t]);
+end_t = 61;
+[y, Fs] = audioread(f_name, Fs * [start_t end_t]);
 y = y(:,1); % get rid of seconds channel
 y = y ./ max(abs(y)); % normalize audio
 T = 1/Fs;
@@ -9,6 +11,7 @@ N = (length(y) * T) - T;
 t = 0: T: N;
 
 % Plot audio in time domain
+figure;
 plot(t, y); xlabel('Seconds'); ylabel('Amplitude');
 
 % Plot audio's spectrogram
