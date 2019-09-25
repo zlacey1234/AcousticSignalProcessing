@@ -17,6 +17,10 @@ plot(t, y); xlabel('Seconds'); ylabel('Amplitude');
 % Plot audio's spectrogram
 figure;
 spectrogram(y(:,1), 128, 120, 128, Fs, 'yaxis');
+figure;
+spectrogram(y(:,1), 128, 120, 128, Fs, 'yaxis');
+colormap hot
+view(-45,65)
 
 % Silence analysis
 w_len = 50e-3 * Fs;
@@ -28,7 +32,7 @@ centroids = spectralCentroid(segs, Fs, 'Window', win, 'OverlapLength', 0);
 
 T_E = mean(sig_energy) / 2;
 T_C = 7000;
-is_roi = (sig_energy >= T_E) & (centroids <= T_C);
+is_roi = (sig_energy >= T_E);% & (centroids <= T_C);
 
 CC = repmat(centroids, w_len, 1);
 CC = CC(:);
