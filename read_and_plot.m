@@ -1,4 +1,4 @@
-f_name = './audio/car_idling/car_idling1.wav';
+f_name = './audio/bat/bat1.wav';
 
 [~, Fs] = audioread(f_name, [1 10]);
 start_t = 1;
