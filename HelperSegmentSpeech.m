@@ -29,7 +29,7 @@ function segments = HelperSegmentSpeech(audio,Fs)
 
 %%
 % Break the audio into 50-millisecond non-overlapping frames.
-audio               = audio(:,1);
+%audio               = audio(:,1);
 audio               = audio ./ max(abs(audio)); % Normalize amplitude
 audio(isnan(audio)) = 0;
 WindowLength        = 50e-3 * Fs;

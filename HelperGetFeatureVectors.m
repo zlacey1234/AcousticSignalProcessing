@@ -1,6 +1,6 @@
 function featureVectors = HelperGetFeatureVectors(x,extractor)
 
-x = x(:,1);
+%x = x(:,1);
 featureVectors = cell(size(x));
 
 for ii = 1:numel(x)

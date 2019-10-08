@@ -48,6 +48,11 @@ myLabels = adsTrain.Labels;
 myLabels = repelem(myLabels, segmentsPerFile);
 allFeatures = cat(2,featureVectors{:});
 allFeatures(isinf(allFeatures)) = nan;
+%for k = 1:length(allFeatures)
+%    n_c = cell2mat(allFeatures(k));
+%    n_c(isinf(n_c)) = nan;
+%    allFeatures(k) = num2cell(n_c, [1 2]);
+%end
 M = mean(allFeatures,2,'omitnan');
 S = std(allFeatures,0,2,'omitnan');
 featureVectors = cellfun(@(x)(x-M)./S,featureVectors,'UniformOutput',false);
