@@ -1,6 +1,7 @@
-datafolder = './audio/';
+type = 'boat';
+datafolder = './audio_split/';
 ads0 = audioDatastore(datafolder,'IncludeSubfolders',true);
-metadata = readtable(fullfile(datafolder, 'audio_data.csv'), 'FileType', 'text', 'Delimiter', ',');
+metadata = readtable(fullfile(datafolder, strcat('audio_data_', type, '.csv')), 'FileType', 'text', 'Delimiter', ',');
 head(metadata)
 
 csvFiles = metadata.path;
@@ -12,8 +13,15 @@ adsTrain = subset(ads0, indA);
 species = metadata.label;
 species = species(indB);
 adsTrain.Labels = species;
+
+istype = find(categorical(adsTrain.Labels) == type);
+isnottype = find(categorical(adsTrain.Labels) == strcat("not_", type));
+numFilesPerType = numel(istype);
+isnottype = isnottype(randperm(numel(isnottype)));
+adsTrain = subset(adsTrain,[isnottype(1:numFilesPerType) istype(1:numFilesPerType)]);
+
 adsTrain = shuffle(adsTrain);
-countEachLabel(adsTrain);
+countEachLabel(adsTrain)
 
 [audio,adsInfo] = read(adsTrain);
 Fs = adsInfo.SampleRate;
@@ -63,7 +71,7 @@ featureVectorOverlap = 10;
 speciesTrain = repelem(myLabels,[sequencePerSegment{:}]);
 
 % skip validation data set, reuse the training set for now
-metadata = readtable(fullfile(datafolder, 'audio_data.csv'), 'FileType', 'text', 'Delimiter', ',');
+metadata = readtable(fullfile(datafolder, strcat('audio_data_', type, '.csv')), 'FileType', 'text', 'Delimiter', ',');
 
 csvFiles = metadata.path;
 adsFiles = ads0.Files;
@@ -74,7 +82,14 @@ adsVal = subset(ads0,indA);
 species = metadata.label;
 species = species(indB);
 adsVal.Labels = species;
-countEachLabel(adsVal);
+
+istype = find(categorical(adsVal.Labels) == type);
+isnottype = find(categorical(adsVal.Labels) == strcat("not_", type));
+numFilesPerType = numel(istype);
+isnottype = isnottype(randperm(numel(isnottype)));
+adsVal = subset(adsVal,[isnottype(1:numFilesPerType) istype(1:numFilesPerType)]);
+
+countEachLabel(adsVal)
 
 T = tall(adsVal);
 segments = cellfun(@(x)HelperSegmentSpeech(x,Fs),T,"UniformOutput",false);
