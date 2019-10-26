@@ -1,4 +1,4 @@
-type = 'killer_whale';
+type = 'macaque';
 datafolder = './audio_split/';
 ads0 = audioDatastore(datafolder,'IncludeSubfolders',true);
 metadata = readtable(fullfile(datafolder, strcat('audio_data_', type, '.csv')), 'FileType', 'text', 'Delimiter', ',');
@@ -15,10 +15,10 @@ species = species(indB);
 adsTrain.Labels = species;
 
 istype = find(categorical(adsTrain.Labels) == type);
-isnottype = find(categorical(adsTrain.Labels) == strcat("not_", type));
-numFilesPerType = numel(istype);
-isnottype = isnottype(randperm(numel(isnottype)));
-adsTrain = subset(adsTrain,[isnottype(1:numFilesPerType) istype(1:numFilesPerType)]);
+istype = istype(randperm(numel(istype)));
+istypeTrain = istype(1:9*fix(numel(istype)/10) - 1);
+istypeVal = istype(9*fix(numel(istype)/10):numel(istype));
+adsTrain = subset(adsTrain,istypeTrain);
 
 adsTrain = shuffle(adsTrain);
 countEachLabel(adsTrain)
@@ -83,11 +83,7 @@ species = metadata.label;
 species = species(indB);
 adsVal.Labels = species;
 
-istype = find(categorical(adsVal.Labels) == type);
-isnottype = find(categorical(adsVal.Labels) == strcat("not_", type));
-numFilesPerType = numel(istype);
-isnottype = isnottype(randperm(numel(isnottype)));
-adsVal = subset(adsVal,[isnottype(1:numFilesPerType) istype(1:numFilesPerType)]);
+adsVal = subset(adsVal,istypeVal);
 
 countEachLabel(adsVal)
 
@@ -116,7 +112,7 @@ layers = [ ...
     bilstmLayer(50,"OutputMode","sequence")
     dropoutLayer(0.1)
     bilstmLayer(50,"OutputMode","last")
-    fullyConnectedLayer(2)
+    fullyConnectedLayer(1)
     softmaxLayer
     classificationLayer];
 

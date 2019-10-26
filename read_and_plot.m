@@ -1,8 +1,8 @@
-f_name = 'test_file_1.wav';
+f_name = 'audio_split/jack_hammer/jack_hammer4.wav';
 
 [~, Fs] = audioread(f_name, [1 10]);
 start_t = 1;
-end_t = 21;
+end_t = 9;
 [y, Fs] = audioread(f_name, Fs * [start_t end_t]);
 y = y(:,1); % get rid of second channel
 y = y ./ max(abs(y)); % normalize audio

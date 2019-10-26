@@ -52,7 +52,7 @@ T_E = mean(E)/2;
 T_C = 5000; % Hz
 
 % Apply Threshold:
-isSpeechRegion = (E>=T_E) & (C<=T_C);
+isSpeechRegion = (E>=T_E);% & (C<=T_C);
 regionStartPos = find(diff([isSpeechRegion(1)-1, isSpeechRegion]));
 regionLengths  = diff([regionStartPos, numel(isSpeechRegion)+1]);
 

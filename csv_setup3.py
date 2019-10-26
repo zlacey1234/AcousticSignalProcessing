@@ -31,9 +31,14 @@ def main(dir_name):
                     print('Processing  <->  ', end='\r')
                 count += 1
                     
-    with open(os.path.join(dir_name, 'audio_data_master.csv'), 'w+') as csv_file:
+    with open(os.path.join(dir_name, 'master.csv'), 'w+') as csv_file:
         writer = csv.writer(csv_file, delimiter=',')
         writer.writerows(csv_data)
+        
+    with open(os.path.join(dir_name, 'labels.csv'), 'w+') as csv_file:
+        temp = [[label] for label in labels]
+        writer = csv.writer(csv_file, delimiter=',')
+        writer.writerows(temp)
     
     for label in labels:
         with open(os.path.join(dir_name, 'audio_data_' + label + '.csv'), 'w+') as csv_file:
