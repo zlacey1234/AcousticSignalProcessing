@@ -8,9 +8,12 @@ def main(dir_name):
         if dir != dir_name:
             for file in files:
                 file_path = os.path.join(os.getcwd(), dir, file)
-                file_path_new = os.path.join(os.getcwd(), dir, dir[dir.index('\\') + 1:] + str(count) + '.wav')
-                os.replace(file_path, file_path_new)
-                count += 1
+                if os.path.getsize(file_path) / 1024 > 100:
+                    file_path_new = os.path.join(os.getcwd(), dir, dir[dir.index('\\') + 1:] + str(count) + '.wav')
+                    os.replace(file_path, file_path_new)
+                    count += 1
+                else:
+                    os.remove(file_path)
 
 if __name__ == '__main__':
     main('audio_split')

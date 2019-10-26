@@ -1,4 +1,4 @@
-type = 'boat';
+type = 'killer_whale';
 datafolder = './audio_split/';
 ads0 = audioDatastore(datafolder,'IncludeSubfolders',true);
 metadata = readtable(fullfile(datafolder, strcat('audio_data_', type, '.csv')), 'FileType', 'text', 'Delimiter', ',');
