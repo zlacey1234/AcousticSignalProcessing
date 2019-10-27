@@ -13,6 +13,16 @@ species = metadata.label;
 species = species(indB);
 adsTrain.Labels = species;
 
+speciesTrain = [];
+speciesVal = [];
+for specie = species
+    istype = find(categorical(adsTrain.Labels) == specie);
+    istype = istype(randperm(numel(istype)));
+    speciesTrain = [speciesTrain istype(1:9*fix(numel(istype)/10))];
+    speciesVal = [speciesVal istype(9*fix(numel(istype)/10) + 1:numel(istype))];
+end
+
+adsTrain = subset(adsTrain,speciesTrain);
 adsTrain = shuffle(adsTrain);
 countEachLabel(adsTrain)
 
@@ -75,6 +85,7 @@ adsVal = subset(ads0,indA);
 species = metadata.label;
 species = species(indB);
 adsVal.Labels = species;
+adsVal = subset(adsVal,speciesVal);
 
 countEachLabel(adsVal)
 
