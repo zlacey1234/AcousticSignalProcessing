@@ -1,4 +1,6 @@
 audio_split/
 audio_pre_split/
+official/
+submission/
 test_file_1.wav
 test2.wav

@@ -29,7 +29,6 @@ function segments = HelperSegmentSpeech(audio,Fs)
 
 %%
 % Break the audio into 50-millisecond non-overlapping frames.
-%audio               = audio(:,1);
 audio               = audio ./ max(abs(audio)); % Normalize amplitude
 audio(isnan(audio)) = 0;
 WindowLength        = 50e-3 * Fs;
@@ -49,10 +48,9 @@ C = centroid;
 
 % Set threshold:
 T_E = mean(E)/2;
-T_C = 5000; % Hz
 
 % Apply Threshold:
-isSpeechRegion = (E>=T_E);% & (C<=T_C);
+isSpeechRegion = (E>=T_E);
 regionStartPos = find(diff([isSpeechRegion(1)-1, isSpeechRegion]));
 regionLengths  = diff([regionStartPos, numel(isSpeechRegion)+1]);
 
